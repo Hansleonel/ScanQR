@@ -13,7 +13,7 @@ class ScanModel {
   // TODO la ayuda del @required, es decir que si queremos hacer uso de el ScanModel
   // TODO por lo menos debemos de enviar el valor de la propiedad "valor"
   ScanModel({this.id, this.tipo, @required this.valor}) {
-    if (this.tipo.contains('http')) {
+    if (this.valor.contains('http')) {
       this.tipo = 'http';
     } else {
       this.tipo = 'geo';

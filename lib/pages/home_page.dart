@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:qr_reader/pages/directions_page.dart';
 import 'package:qr_reader/pages/mapas_page.dart';
+import 'package:qr_reader/providers/db_provider.dart';
 
 import 'package:qr_reader/providers/ui_provider.dart';
 
@@ -41,6 +42,22 @@ class _HomePageBody extends StatelessWidget {
     // TODO accediendo al get de nuestro uiProvider, como sabemos los getters y los setters en Dart
     // TODO son tratados como propieades y no como metodos
     final currentIndex = uiProvider.getSelectedMenuOpt;
+
+    // TODO Accediendo al get Database desde el provider DBProvider
+    // TODO como sabemos desde dicho get instaciamos o recuperamos la Database ya instanciada
+    // al ser la primera vez que hacemos uso del get, instanciamos la Database a traves del metodo
+    // "initDB()" que se encuentra dentro del get
+    // DBProvider.db.database;
+
+    // creando nuevo objeto tempScan de clase ScanModel, es decir que dicho objeto debe de tener las propieades que
+    // presenta el ScanModel y en caso tenga una propiedad "@required" entonces debe de instanciarse de forma obligatoria
+    // ademas como sabemos dentro de nuestro constructor establecemos condiciones para la asignacion de valores
+    // a las demas propiedades, en este caso las propieades "id" y "tipo"
+    final tempScan = new ScanModel(valor: "https://twitter.com");
+    // accediendo al metodo ".nuevoScan()" de nuestro provider DBProvider y enviando el objeto tempScan
+    // como vemos al usar el metodo ".nuevoScan()" dentro de nuestro metodo build()
+    // estaremos insertando elementos cada vez que hagamos un llamado a dicho metodo build()
+    DBProvider.db.nuevoScan(tempScan);
 
     switch (currentIndex) {
       case 0:
