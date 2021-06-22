@@ -141,5 +141,34 @@ class DBProvider {
   }
 
   // metodo para obtener todos los registros de la misma tabla consultada en la parte superior
-  Future<List<ScanModel>> getAllScans() async {}
+  Future<List<ScanModel>> getAllScans() async {
+    // obteniendo la instanciacion de nuestra Database con el getter "getDatabase"
+    final db = await getDatabase;
+    // como vemos usaremos el metodo query que como sabemos es un Future
+    // en este caso solo usaremos su propiedad "table" que como sabemos es posicional
+    // y en este caso es "Scans" que como sabemos es el nombre de la tabla
+    final res = await db.query('Scans');
+
+    // en caso los valores de res no esten vacios debemo de usar la lista res
+    // para pasarlo por el metodo ".map" que como vemos es un metodo Iterable es decir que tambien nos
+    // devuelve un valor iterable, es decir podemos recorrerlo
+    // por cada recorrido recojemos el valor de dicho recorrido con el valor de la variable "s"
+    // dicho valor debe de ser enviado al metodo ".fromJson(s)" para poder asignar valores a la propieades de nuestra
+    // Class ScanModel, una vez hecho esto debemos de usar todos esos recorridos y asignaciones y transformarlos
+    // a una lista con la ayuda de la funcion preestablecida de dart ".toList()"
+    return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
+  }
+
+  Future<List<ScanModel>> getScansByType(String tipo) async {
+    final db = await getDatabase;
+    // para obtener los registros por tipo, mediante el primer metodo de consulta
+    // es decir con la funcion ".rawQuery()" e insertando toda la consulta personaliza dentro de dicha funcion
+    final res = await db.rawQuery('''
+
+      SELECT * FROM Scans WHERE tipo = '$tipo'
+    
+    ''');
+
+    return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
+  }
 }

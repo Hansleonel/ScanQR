@@ -60,7 +60,15 @@ class _HomePageBody extends StatelessWidget {
     // DBProvider.db.nuevoScan(tempScan);
 
     // Accediendo a un registro de nuestra Database con el metodo de nuestro Provider DBProvider "getScanById"
-    DBProvider.db.getScanById(7).then((value) => print(value.tipo));
+    // DBProvider.db.getScanById(7).then((value) => print(value.valor));
+
+    // Accediendo a un todos los registros de nuestra table 'Scans'
+    // una vez accedido a nuestra table 'Scans' mostramos el id de nuestro primer registro con las siguientes lineas
+    // DBProvider.db.getAllScans().then((value) => print(value[1].id));
+
+    // Accediendo a los registro del mismo tipo
+    // una vez encontremos los registros del mismo tipo los mostramos
+    // DBProvider.db.getScansByType("http").then((value) => print(value[1].id));
 
     switch (currentIndex) {
       case 0:
