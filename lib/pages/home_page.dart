@@ -57,7 +57,10 @@ class _HomePageBody extends StatelessWidget {
     // accediendo al metodo ".nuevoScan()" de nuestro provider DBProvider y enviando el objeto tempScan
     // como vemos al usar el metodo ".nuevoScan()" dentro de nuestro metodo build()
     // estaremos insertando elementos cada vez que hagamos un llamado a dicho metodo build()
-    DBProvider.db.nuevoScan(tempScan);
+    // DBProvider.db.nuevoScan(tempScan);
+
+    // Accediendo a un registro de nuestra Database con el metodo de nuestro Provider DBProvider "getScanById"
+    DBProvider.db.getScanById(7).then((value) => print(value.tipo));
 
     switch (currentIndex) {
       case 0:

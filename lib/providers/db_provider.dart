@@ -22,7 +22,7 @@ class DBProvider {
   // es por eso que debemo de usar el async, es por esto que debemos de usar un Future
   // ademas debemos de establecer que dicho Future es de tipo Database por lo que siempre
   // tiene que retrn una variable de tipo Database
-  Future<Database> get database async {
+  Future<Database> get getDatabase async {
     // en caso tengamos una instasiacion correcta de la database
     // tennemos que realizar un rtrn de la misma database
     if (_database != null) return _database;
@@ -77,7 +77,7 @@ class DBProvider {
     });
   }
 
-  // metodo para la creacionn de registros dentro de nuestra Database
+  // metodo para la creacion de registros dentro de nuestra Database
   // metodo con consultas sql personalizadas
   Future<int> nuevoScanRaw(ScanModel nuevoScan) async {
     // creacion de variables usando nuestro objeto "nuevoScan" del tipo ScanModel
@@ -89,7 +89,7 @@ class DBProvider {
     // TODO accediendo a la base de datos con la ayuda de nuestro getter que se encuentra en la parte superior
     // como sabemos en dicho getter hacemos la comprobacion si es instancia de Database
     // ya existe o se tiene que crear por primera vez
-    final db = await database;
+    final db = await getDatabase;
     // usando el metodo preestablecido de nuestro paquete sqlflite
     // para la insercion de registros, como vemos usamos las variables inicializadas con las propieades
     // de nuestro ScanModel
@@ -105,7 +105,7 @@ class DBProvider {
   // metodo con consultas sql no personalizadas
   Future<int> nuevoScan(ScanModel nuevoScan) async {
     // TODO accediendo y comprobando la instanciacion de nuestra Database con el uso del getter de la parte superior
-    final db = await database;
+    final db = await getDatabase;
 
     // usado metodo prestablecido para la insercion de registros "db.inserts" desde la variable db del tipo Database
     // ademas, como vemos, usaremos el metodo ".toJson" que mapea todas las propiedades de nuestro model ScanModel
@@ -119,4 +119,27 @@ class DBProvider {
 
     return res;
   }
+
+  // metodo para obtener un registro completo por Id
+  // usaremos el segundo metodo que nos brinda mayor seguridad
+  Future<ScanModel> getScanById(int id) async {
+    // obteniendo la instanciacion de nuestra Database con el getter de nombre
+    // getDatabase
+    final db = await getDatabase;
+    // realizando un query usando el metodo query
+    // dicho metodo tiene propieades posicionales y nominales
+    // el primera propiedad que es nominal nos hace referencia al nombre de la tabla
+    // en este caso a "Scanns", la segudna propiedad es nominal y tiene el nombre de "Where"
+    // que como vemos recibe un String, la tercera propiedad es nominal y tiene el nombre de "WhereArgs"
+    // que recibe un listado de valores dynamics, en este caso solo recibira el id
+    final res = await db.query('Scans', where: 'id=?', whereArgs: [id]);
+
+    // en caso la respuesta no se encuentre vacia, devolvemos el primer registro encontrado con el "res.first"
+    // y ademas usamos el metodo ".fromJsonn(res.first)" que recibe un listado de elementos y asigna valores a las propieades
+    // de nuestro Class ScanModel, en este caso dichas propiedades son "id", "tipo", "valor"
+    return res.isNotEmpty ? ScanModel.fromJson(res.first) : [];
+  }
+
+  // metodo para obtener todos los registros de la misma tabla consultada en la parte superior
+  Future<List<ScanModel>> getAllScans() async {}
 }
