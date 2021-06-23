@@ -171,4 +171,46 @@ class DBProvider {
 
     return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
   }
+
+  // Metodo para actualizar registros mediante el segundo metodo
+  Future<int> updateScan(ScanModel actualizandoScan) async {
+    final db = await getDatabase;
+    // como vemos realizaremos el update con nuestro metodo ".update()"
+    // que como vemos recibe sus dos primeras propiedades posicionales nombre de la tabla y un map en forma de JSON
+    // es por eso que debemos de usar el metodo ".toJson()" de nuestra Class ScanModel
+    // ademas debemos de darle la condicion a dicha Future ".update()" para que no actualice toda la Database completa
+    // si no solo el registro deseado, como vemos para establecer condiciones debemos de utilizar propieades nominales
+    // de nuestro Future ".update()", en este caso la propiedad "where" y la propiedad "whereArgs"
+    final res = await db.update('Scans', actualizandoScan.toJson(),
+        where: 'id=?', whereArgs: [actualizandoScan.id]);
+
+    return res;
+  }
+
+  // Metodo para delete registros por id
+  Future<int> deleteScanById(int id) async {
+    final db = await getDatabase;
+    // usamos el metodo "delete()" que usa las propieadad posicional "table" que es el nombre de la tabla
+    // ademas usa la propiedad "where" para la condicion y "whereArgs" para los argumentos recibidos por la condicion
+    // es decir la propiedad "where"
+    final res = await db.delete('Scans', where: 'id=?', whereArgs: [id]);
+    // como hacemos un retrn de res que almacena el valor de los registros afectados
+    // por el metodo predetermiando que en este caso es un "Future"
+    return res;
+  }
+
+  // metodo para delete de todos los registros de una tabla
+  Future<int> deleteAllScans() async {
+    final db = await getDatabase;
+    // el metodo ".rawDelete()" recibe la instruccion SQL completa
+    final res = await db.rawDelete('''
+  
+      DELETE FROM SCANS
+
+    ''');
+    // "res" almancena el valor de los registros afectads por
+    // el metodo ".rawDelete()"  que como sabes es un future
+    // ademas debe "res" debe de ser devuelt por el retrn
+    return res;
+  }
 }
