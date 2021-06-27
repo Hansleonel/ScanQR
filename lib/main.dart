@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:qr_reader/pages/home_page.dart';
 import 'package:qr_reader/pages/mapa_page.dart';
+
+import 'package:qr_reader/providers/scan_list_provider.dart';
 import 'package:qr_reader/providers/ui_provider.dart';
 
 void main() => runApp(MyApp());
@@ -19,7 +21,12 @@ class MyApp extends StatelessWidget {
       // TODO realizar instancias globales de nuestro UiProvider(), o de los demas
       // TODO providers creados
       providers: [
-        ChangeNotifierProvider(create: (context) => new UiProvider())
+        // provider para saber cual es la pagina seleccionada desde el Widget
+        // "CustomNavigationBar()", ya sea la pagina "MapasPage()" o "DirectionsPage()"
+        ChangeNotifierProvider(create: (context) => new UiProvider()),
+        // provider para actualizar la vista del listado de Scans de acuerdo al metodo que se use
+        // ya sea para ver todos los scans o borrarlos por tipo o todos, o para crear un nuevo elemento
+        ChangeNotifierProvider(create: (context) => new ScanListProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
