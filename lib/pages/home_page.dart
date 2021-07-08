@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_reader/pages/directions_page.dart';
 import 'package:qr_reader/pages/mapas_page.dart';
 import 'package:qr_reader/providers/db_provider.dart';
+import 'package:qr_reader/providers/scan_list_provider.dart';
 
 import 'package:qr_reader/providers/ui_provider.dart';
 
@@ -70,10 +71,19 @@ class _HomePageBody extends StatelessWidget {
     // una vez encontremos los registros del mismo tipo los mostramos
     // DBProvider.db.getScansByType("http").then((value) => print(value[1].id));
 
+    // usando el ScanListProvider para poder distinguir el tipo de carga que se realizara desde los metodos de mi ScanListProvider
+    // puesto que cada pantalla solo debe de mostrar o bien una lista de enlaces o bien una lista de geos
+    // ademas debemos de prestar atenciona a que estableceremos la propieda "listen" en false
+    // de dicho provider, puesto que a diferencia del Provider UiProvider de la parte superior
+    // no queremos usar este provider para redibujar este Widget de Mapas sino los Widgets MapasPage() y DireccionsPage()
+    final scanListProvider =
+        Provider.of<ScanListProvider>(context, listen: false);
     switch (currentIndex) {
       case 0:
+        scanListProvider.cargarScansByType('geo');
         return MapasPage();
       case 1:
+        scanListProvider.cargarScansByType('http');
         return DirectionsPage();
       default:
         return MapasPage();
