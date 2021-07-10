@@ -91,6 +91,8 @@ class ScanListProvider extends ChangeNotifier {
     // en esta ocacion podemos usar el metodo "cargarScansByType(type)" para poder actualizar tanto nuestra lista
     // "List<ScanModel> scans" como nuestra interfaz puesto que no necesuitamios volver a usar la funcion
     // notifyListener(), puesto que el metodo "cargarScansByType(type)" ya lo usa
-    cargarScansByType(this.tipoSeleccionado);
+    // TODO en caso no necesitemos recargar nuestra interfaz como por ejemplo con el uso del Widget Dismissible()
+    // no es necesario volver a usar la funcion "cargarScansByType()"
+    // cargarScansByType(this.tipoSeleccionado);
   }
 }

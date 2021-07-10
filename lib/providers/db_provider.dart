@@ -137,7 +137,7 @@ class DBProvider {
     // en caso la respuesta no se encuentre vacia, devolvemos el primer registro encontrado con el "res.first"
     // y ademas usamos el metodo ".fromJsonn(res.first)" que recibe un listado de elementos y asigna valores a las propieades
     // de nuestro Class ScanModel, en este caso dichas propiedades son "id", "tipo", "valor"
-    return res.isNotEmpty ? ScanModel.fromJson(res.first) : [];
+    return res.isNotEmpty ? ScanModel.fromJson(res.first) : null;
   }
 
   // metodo para obtener todos los registros de la misma tabla consultada en la parte superior
@@ -156,7 +156,9 @@ class DBProvider {
     // dicho valor debe de ser enviado al metodo ".fromJson(s)" para poder asignar valores a la propieades de nuestra
     // Class ScanModel, una vez hecho esto debemos de usar todos esos recorridos y asignaciones y transformarlos
     // a una lista con la ayuda de la funcion preestablecida de dart ".toList()"
-    return res.isNotEmpty ? res.map((s) => ScanModel.fromJson(s)).toList() : [];
+    return res.isNotEmpty
+        ? res.map((s) => ScanModel.fromJson(s)).toList()
+        : <ScanModel>[];
   }
 
   Future<List<ScanModel>> getScansByType(String tipo) async {
