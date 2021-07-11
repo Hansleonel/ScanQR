@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_reader/providers/scan_list_provider.dart';
+import 'package:qr_reader/utils/utils.dart';
 
 // creando un Widget para poder optimizar codigo repetido
 class ScanTiles extends StatelessWidget {
@@ -44,24 +45,28 @@ class ScanTiles extends StatelessWidget {
                     .borrarScanById(scans[i].id);
               },
               child: ListTile(
-                leading: Icon(
-                  this.tipo == 'http' ? Icons.map : Icons.home,
-                  color: Theme.of(context).primaryColor,
-                ),
-                // como vemos usamos la lista "List<ScanModel> scans" y el indice "i"
-                // para conocer el valor de la propiedad "title" de cada elemento de nuestra lista
-                // para este caso usaremos la propiedad "valor" de nuestro Model ScanModel
-                title: Text(scans[i].valor),
-                // como vemos usamos la lista "List<ScanModel> scans" y el indice "i"
-                // para conocer el valor de la propiedad "subtitle" de cada elemento de neuestra lista
-                // en este caso usaremos la propiedad "id" de nuestro Model ScanModel
-                subtitle: Text(scans[i].id.toString()),
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
-                  color: Colors.grey,
-                ),
-                onTap: () => print(scans[i].id),
-              ),
+                  leading: Icon(
+                    this.tipo == 'http' ? Icons.map : Icons.home,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  // como vemos usamos la lista "List<ScanModel> scans" y el indice "i"
+                  // para conocer el valor de la propiedad "title" de cada elemento de nuestra lista
+                  // para este caso usaremos la propiedad "valor" de nuestro Model ScanModel
+                  title: Text(scans[i].valor),
+                  // como vemos usamos la lista "List<ScanModel> scans" y el indice "i"
+                  // para conocer el valor de la propiedad "subtitle" de cada elemento de neuestra lista
+                  // en este caso usaremos la propiedad "id" de nuestro Model ScanModel
+                  subtitle: Text(scans[i].id.toString()),
+                  trailing: Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Colors.grey,
+                  ),
+                  onTap: () => {
+                        // itilizando el metodo del util "launchURL()" que con la ayuda del paquete url_launcher
+                        // nos permite navegar a paginas que no estan dentro de nuenstra application, ademas le agregamos la condicion
+                        // para que dicha navegacion se realice solo en el caso de que el tipo del scan sea "http"
+                        launchURL(context, scans[i])
+                      }),
             ));
   }
 }
