@@ -13,7 +13,7 @@ class ScanListProvider extends ChangeNotifier {
   // metodo para crear un nuevo Scan en nuestro Database
   // ademas de agregar dicho Scan creado a nuestro listado List<ScanModel> scans
   // dicho metodo recibe el valor de scanea nuestro button principal
-  nuevoScan(String valor) async {
+  Future<ScanModel> nuevoScan(String valor) async {
     // instanciando un nuevo objeto de nombre "nuevoScan" y de la Class ScanModel
     // como sabemos dicha Class tiene en su cosntructor un valor obligatorio
     // es por eso que debemos de enviarle siempre el valor recibido por el metodo nuevoScan(String valor)
@@ -41,6 +41,8 @@ class ScanListProvider extends ChangeNotifier {
       // notificamos dicha modificacnn para poder actualizar nuestra interface
       notifyListeners();
     }
+
+    return nuevoScan;
   }
 
   // cargar todos los scans desde la Database

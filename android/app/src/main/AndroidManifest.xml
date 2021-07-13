@@ -9,6 +9,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="qr_reader"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCkyPX2V4CLcIiKLoDGNql55e6fZWzjIjQ"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
